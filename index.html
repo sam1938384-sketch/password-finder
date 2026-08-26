@@ -144,7 +144,7 @@
   <p class="sub">Insert Last Two Digit Of IMEI</p>
 
   <label for="num">Last 2 digits</label>
-  <input type="text" id="num" maxlength="2" placeholder="e.g. 47">
+  <input type="text" id="num" maxlength="2" placeholder="Type Last Two Digits Of IMEI Here..">
 
   <div class="toggle-group">
     <button type="button" class="toggle-btn active" data-os="android" onclick="selectOS(this)">Android</button>
@@ -207,7 +207,7 @@ function findPassword() {
     text.style.display = 'block';
 
     if (selectedOS === 'android') {
-      text.textContent = "You are using a pattern lock. Unable To Provide Password.";
+      text.textContent = "You are using a pattern lock. Unable To Provide Password❌";
     } else {
       text.textContent = "Your Required Phone Password is 112277✅";
     }
