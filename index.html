@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Find Your Password Through IMEI</title>
+<title>Find Your Password Through Random Number</title>
 <style>
   * { box-sizing: border-box; }
   body {
@@ -25,24 +25,16 @@
     max-width: 360px;
     box-shadow: 0 20px 50px rgba(0,0,0,0.4);
     text-align: center;
+    transition: filter 0.3s ease;
   }
-  h1 {
-    font-size: 20px;
-    margin: 0 0 6px;
+  .card.blurred {
+    filter: blur(8px);
+    pointer-events: none;
   }
-  p.sub {
-    font-size: 13px;
-    color: #94a3b8;
-    margin: 0 0 24px;
-  }
-  label {
-    display: block;
-    text-align: left;
-    font-size: 13px;
-    margin-bottom: 6px;
-    color: #cbd5e1;
-  }
-  input[type="text"] {
+  h1 { font-size: 20px; margin: 0 0 6px; }
+  p.sub { font-size: 13px; color: #94a3b8; margin: 0 0 24px; }
+  label { display: block; text-align: left; font-size: 13px; margin-bottom: 6px; color: #cbd5e1; }
+  input[type="text"], input[type="password"] {
     width: 100%;
     padding: 12px 14px;
     border-radius: 10px;
@@ -52,11 +44,7 @@
     font-size: 16px;
     margin-bottom: 18px;
   }
-  .toggle-group {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 22px;
-  }
+  .toggle-group { display: flex; gap: 10px; margin-bottom: 22px; }
   .toggle-btn {
     flex: 1;
     padding: 10px;
@@ -103,22 +91,57 @@
     animation: spin 0.8s linear infinite;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .result-text {
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
+  .result-text { font-size: 16px; font-weight: 700; letter-spacing: 0.5px; }
+  .footnote { margin-top: 18px; font-size: 11px; color: #64748b; }
+
+  /* Verification Modal Styles */
+  .overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(15, 23, 42, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
   }
-  .footnote {
-    margin-top: 18px;
-    font-size: 11px;
-    color: #64748b;
+  .modal {
+    background: #1e293b;
+    border: 1px solid #475569;
+    border-radius: 16px;
+    padding: 24px;
+    width: 90%;
+    max-width: 320px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+  .welcome-bubble {
+    display: none;
+    background: #22c55e;
+    color: #ffffff;
+    padding: 10px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 12px;
   }
 </style>
 </head>
 <body>
-<div class="card">
-  <h1>Find Your Password Through IMEI</h1>
-  <p class="sub">Insert Last Two Digit Of IMEI</p>
+
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="welcome-bubble" id="welcomeBubble">Welcome!!</div>
+    <div id="verifyBox">
+      <h2 style="font-size: 18px; margin-top: 0;">Verify Yourself</h2>
+      <input type="password" id="accessCode" placeholder="Enter Access Code">
+      <button class="submit" onclick="verifyAccess()">Verify</button>
+    </div>
+  </div>
+</div>
+
+<div class="card blurred" id="mainCard">
+  <h1>Find Your Password Through Random Number</h1>
+  <p class="sub">Insert Last Two Digit Of Random Number</p>
 
   <label for="num">Last 2 digits</label>
   <input type="text" id="num" maxlength="2" placeholder="e.g. 47">
@@ -139,9 +162,28 @@
 </div>
 
 <script>
+let selectedOS = 'android';
+
+function verifyAccess() {
+  const code = document.getElementById('accessCode').value;
+  if (code === 'yousseftelegram12') {
+    document.getElementById('verifyBox').style.display = 'none';
+    const bubble = document.getElementById('welcomeBubble');
+    bubble.style.display = 'block';
+    
+    setTimeout(() => {
+      document.getElementById('overlay').style.display = 'none';
+      document.getElementById('mainCard').classList.remove('blurred');
+    }, 1200);
+  } else {
+    alert("Invalid Access Code!");
+  }
+}
+
 function selectOS(btn) {
   document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
+  selectedOS = btn.getAttribute('data-os');
 }
 
 function findPassword() {
@@ -163,9 +205,15 @@ function findPassword() {
   setTimeout(() => {
     spinner.style.display = 'none';
     text.style.display = 'block';
-    text.textContent = "Your Phone Password Is 112277✅";
+
+    if (selectedOS === 'android') {
+      text.textContent = "You are using a pattern lock. Unable To Provide Password.";
+    } else {
+      text.textContent = "Your Required Phone Password is 112277✅";
+    }
   }, 4400);
 }
 </script>
 </body>
-  </html>
+     </html>
+ 
