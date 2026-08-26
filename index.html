@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find Your Password Through IMEI</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #f1f5f9;
+  }
+  .card {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 16px;
+    padding: 32px 28px;
+    width: 100%;
+    max-width: 360px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    text-align: center;
+  }
+  h1 {
+    font-size: 20px;
+    margin: 0 0 6px;
+  }
+  p.sub {
+    font-size: 13px;
+    color: #94a3b8;
+    margin: 0 0 24px;
+  }
+  label {
+    display: block;
+    text-align: left;
+    font-size: 13px;
+    margin-bottom: 6px;
+    color: #cbd5e1;
+  }
+  input[type="text"] {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #475569;
+    background: #0f172a;
+    color: #f1f5f9;
+    font-size: 16px;
+    margin-bottom: 18px;
+  }
+  .toggle-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+  .toggle-btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #475569;
+    background: #0f172a;
+    color: #cbd5e1;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .toggle-btn.active {
+    background: #6366f1;
+    border-color: #6366f1;
+    color: white;
+  }
+  button.submit {
+    width: 100%;
+    padding: 13px;
+    border-radius: 10px;
+    border: none;
+    background: #6366f1;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  button.submit:hover { background: #4f46e5; }
+  .result {
+    display: none;
+    margin-top: 22px;
+    padding: 20px;
+    border-radius: 12px;
+    background: #0f172a;
+    border: 1px solid #334155;
+  }
+  .result.show { display: block; }
+  .spinner {
+    width: 28px;
+    height: 28px;
+    border: 3px solid #334155;
+    border-top-color: #6366f1;
+    border-radius: 50%;
+    margin: 0 auto 12px;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .result-text {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .footnote {
+    margin-top: 18px;
+    font-size: 11px;
+    color: #64748b;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Find Your Password Through IMEI</h1>
+  <p class="sub">Insert Last Two Digit Of IMEI</p>
+
+  <label for="num">Last 2 digits</label>
+  <input type="text" id="num" maxlength="2" placeholder="e.g. 47">
+
+  <div class="toggle-group">
+    <button type="button" class="toggle-btn active" data-os="android" onclick="selectOS(this)">Android</button>
+    <button type="button" class="toggle-btn" data-os="ios" onclick="selectOS(this)">iOS</button>
+  </div>
+
+  <button class="submit" onclick="findPassword()">Find Password</button>
+
+  <div class="result" id="result">
+    <div class="spinner" id="spinner"></div>
+    <div class="result-text" id="resultText"></div>
+  </div>
+
+  <div class="footnote">Please do not use for harming others..</div>
+</div>
+
+<script>
+function selectOS(btn) {
+  document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function findPassword() {
+  const num = document.getElementById('num').value;
+  const result = document.getElementById('result');
+  const spinner = document.getElementById('spinner');
+  const text = document.getElementById('resultText');
+
+  if (!num) {
+    alert("Enter the last 2 digits first!");
+    return;
+  }
+
+  result.classList.add('show');
+  spinner.style.display = 'block';
+  text.style.display = 'none';
+  text.textContent = '';
+
+  setTimeout(() => {
+    spinner.style.display = 'none';
+    text.style.display = 'block';
+    text.textContent = "Your Phone Password Is 112277✅";
+  }, 4400);
+}
+</script>
+</body>
+  </html>
